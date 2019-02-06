@@ -14,6 +14,7 @@ surveys[1:400,col158]
 surveys_subset <- c(surveys[1:400,col158])
 surveys_subset
 
+surveys_subset[which($hindfoot_length>32)]
 surveys_subset$hindfoot_length<- as.numeric(surveys_subset$hindfoot_length) #tried to do this because there are NA values and I think that was messing with my outputs 
 surveys_subset$hindfoot_length
 surveys_subset$hindfoot_length<- as.numeric(surveys_subset$hindfoot_length) #Tried to make tem numeric so I can do a histogram, did not seem to work 
