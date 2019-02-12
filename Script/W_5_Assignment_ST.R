@@ -83,6 +83,8 @@ surveys_scaled <- surveys %>%
   arrange(scaled_weight) %>% 
   tail()
 
+#upload
+
 
 
 
