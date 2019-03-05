@@ -1,0 +1,101 @@
+---
+title: "Week 9"
+author: "Sadie Trombley"
+date: "March 5, 2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+Delete everything besides above when opening new Rmarkdown document 
+
+**This is bold** *This is italic*
+
+##This will make the font bigger
+###This will make it slightly smaller 
+
+can google search Rmarkdown cheat sheet
+see settings tab in above pane, and knit specifies html vs whatever else, html only exists online
+can knit to PDF 
+hit ctrl alt i to add a place for r code 
+Have to install packages in console rather than in Rmarkdown, but load library here? as seen below in Rcoding section
+If we want to get rid of all the coding add warning=FALSE, message=FALSE, and echo=FALSE
+Always save before knitting 
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+glimpse(storms)
+
+library(viridis)
+
+ggplot(data=storms)+
+  geom_jitter(aes(x= as.factor(month), y = pressure, fill=wind), pch= 21, alpha=.05)+
+  scale_fill_viridis_c()+
+  theme_bw()+
+  labs(title= "Hurrican Pressure V Month", subtitle = "with Max Wind Speed", X = "Month")
+
+
+```
+
+writing out equations in Rmarkdown:
+
+If you want to write and equation, you put a $ on either side of it.
+
+$\sum_{i=y}^n X_i$
+
+```{r}
+library(knitr)
+kable(head(storms), caption= "Table using Kable")
+
+
+htmlTable::htmlTable(head(storms))
+
+#make an interactive table
+
+DT::datatable(storms)
+
+```
+
+```{r}
+library(plotly)
+
+ggplotly(
+ggplot(data=storms)+
+  geom_jitter(aes(x= as.factor(month), y = pressure, fill=wind), pch= 21, alpha= .05)+
+  scale_fill_viridis_c()+
+  theme_bw()+
+  labs(title= "Hurricane Pressure v Month", subtitle = "with Max Wind Speed", x = "Month")
+)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
