@@ -48,8 +48,42 @@ am_riv3%>%
 #  got warning message about group aesthetic 
 
 
-#Part 2 to be continued 
+#Part 2 to be continued
+load("data/mauna_loa_met_2001_minute.rda")
 
+#datetime column
+mloa_2001$datetime <- paste0(mloa_2001$year, "-", mloa_2001$month, "-", mloa_2001$day, "-", mloa_2001$hour24, ":", mloa_2001$min)
+
+glimpse(mloa_2001)
+
+#datetime format
+mloa_2001$datetime <- ymd_hm(mloa_2001$datetime)
+
+#removing NAs 
+mloa2 <- mloa_2001 %>% 
+  filter(rel_humid != -99, rel_humid != -999) %>% 
+  filter(temp_C_2m!= -99, temp_C_2m != -999) %>% 
+  filter(windSpeed_m_s!= -99, windSpeed_m_s != -999)
+
+glimpse(mloa2)
+
+#the function
+plot_temp <- function(monthtoimput, dat = mloa2){
+  df <- filter(dat, month == monthtoimput)
+  plot <- df %>% 
+    ggplot()+ geom_line(aes(x=datetime, y = temp_C_2m), color = "red")+
+    theme_bw()
+  return(plot)
+}
+
+plot_temp(3)
+#Whe writing the function, tell input and what you want to use, we can tell it to use things that do not exist, things that are just in the function
+
+plot_temp <- function(monthtoinput, dat = mloa2 )
+  #testing the function, should get a plot for just March temps. You can give no defaults to a function or you can set a default if you will be using it a lot 
+  
+  plot_temp(3)
+#not working...
 
 
 
