@@ -1,0 +1,58 @@
+---
+title: "week9_assignment_ST.Rmd"
+author: "Sadie Trombley"
+date: "March 12, 2019"
+output: html_document
+---
+
+The focus of my master’s research is conducting a disease survey on the endangered *salt marsh harvest mouse*. Rodents are host to many pathogens and population health can be important information for an endangered species. **I want to investigate how environmental factors such as season and community composition effect pathogen prevalence and ectoparasite abundance.** Some of my study sites have diverse rodent communities, while other sites are less diverse in rodent species. Many of the sympatric rodents that are found at my diverse sites are nonnative and potential vessels for pathogen spillover.
+
+(file:///C:/Users/sntro/OneDrive/Desktop/Cute_Mouse.jpg)
+
+
+
+```{r}
+library(tidyverse)
+glimpse(storms)
+?storms
+storms <- storms
+
+#2
+plotly::ggplotly(storms %>% 
+                   ggplot()+
+                   geom_point(aes(wind, pressure, color = status))
+                 )
+#3
+table <- storms %>% 
+  drop_na(ts_diameter, hu_diameter) %>% 
+  group_by(status) %>% 
+  summarise(mean_wind = mean(wind), mean_pressure = mean(pressure), mean_ts = mean(ts_diameter), mean_hu = mean(hu_diameter))
+
+#rounding the columns
+table$mean_wind <- round(table$mean_pressure, digits = 2)
+table$mean_pressure <- round(table$mean_pressure, digits = 2)
+table$mean_ts <- round(table$mean_ts, digits = 2)
+table$mean_hu <- round(table$mean_hu, digits = 2)
+
+htmlTable::htmlTable(table)
+
+#Bonus
+storms %>%
+  drop_na(ts_diameter, hu_diameter) %>% 
+  group_by(status) %>% 
+  summarise(mean_wind = mean(wind), mean_pressure = mean(pressure), mean_ts = mean(ts_diameter), mean_hu = mean(hu_diameter)) %>% 
+  modify_if(is.numeric, round, digits = 2) %>% # if a column is numeric, round it to 2 digits
+  htmlTable::htmlTable()
+
+#Challenge
+
+hurr_len <- storms %>% 
+  filter(status == "hurricane", year >= 2010) %>% 
+  group_by(name, year) %>% 
+  summarise(num_days = diff(range(day)))
+  
+map2_chr(.x = hurr_len$name, .y = hurr_len$num_days, function(x,y) paste("Hurricane", x, "lasted", y, "days"))
+
+
+```
+
